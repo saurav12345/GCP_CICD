@@ -1,1 +1,8 @@
 # GCP_CICD
+## This is a basic repo for sample html content hosting over NGINX web server
+### Steps:
+<li>
+  Use Dockerfile to generate image
+  Push image to artifact registry
+  Refer image in deployment manifest file
+</li>
