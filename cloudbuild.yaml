@@ -13,7 +13,7 @@ steps:
     args:
       - '-c'
       - |
-        sed -i "s|image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:.*|image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:v${SHORT_SHA}|" deployment.yaml 
+        sed -i "s|image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:.*|image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:v${SHORT_SHA}|" nginx_deploy.yaml 
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Deploy Image'
