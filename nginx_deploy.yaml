@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:v${SHORT_SHA}
+        image: asia-south1-docker.pkg.dev/devops-374319/test/nginx:v${SHORT_SHA}
         ports:
         - containerPort: 80
 ---
