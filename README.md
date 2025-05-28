@@ -3,6 +3,8 @@
 ### Steps:
 <li>
   Use Dockerfile to generate image
+</li>
+<ol>
   Push image to artifact registry
   Refer image in deployment manifest file
-</li>
+</ol>
