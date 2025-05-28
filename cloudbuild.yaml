@@ -1,0 +1,37 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Docker Image'
+    args: ['build', '--cache-from', 'asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:latest', '-t', 'asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:v${SHORT_SHA}', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Docker Image'
+    args: ['push', 'asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:v${SHORT_SHA}']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Update Deployment YAML'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        sed -i "s|image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:.*|image: asia-south1-docker.pkg.dev/${_PROJECT_ID}/test/nginx:v${SHORT_SHA}|" deployment.yaml 
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'Deploy Image'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+          echo "Authenticating over GKE"
+          gcloud container clusters get-credentials ${_CLUSTER_NAME} --zone ${_ZONE} --project ${_PROJECT_ID}
+          kubectl apply -f nginx_deploy.yaml --namespace ${_NAMESPACE}
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+
+substitutions:
+  _PROJECT_ID: 'devops-374319'
+  _ZONE: 'asia-south1'
+  _CLUSTER_NAME: 'autopilot-cluster-1'
+  _NAMESPACE: 'test'
+
+logsBucket: 'gs://gcp_cloudbuild_logs_bucket'
