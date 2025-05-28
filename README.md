@@ -5,3 +5,4 @@
 <li>Push image to artifact registry</li>
 <li>Refer image in deployment manifest file</li>
 
+
