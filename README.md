@@ -4,7 +4,7 @@
 <li>
   Use Dockerfile to generate image
 </li>
-<ol>
-  Push image to artifact registry
+<li>
+  Push image to artifact registry <br/>
   Refer image in deployment manifest file
-</ol>
+</li>
